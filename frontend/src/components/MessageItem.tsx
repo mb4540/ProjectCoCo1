@@ -1,4 +1,5 @@
 import React from 'react';
+import { Bot } from 'lucide-react';
 import { Message } from '../types/message';
 import './MessageItem.css';
 
@@ -31,10 +32,13 @@ const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
     }
   };
 
+  const isAssistant = message.userId === 'assistant';
+
   return (
-    <div className="message-item">
+    <div className={`message-item ${isAssistant ? 'assistant-message' : ''}`}>
       <div className="message-header">
         <div className="user-info">
+          {isAssistant && <Bot size={16} className="assistant-icon" />}
           <span className="user-name">{message.userId}</span>
           <span 
             className="role-badge" 

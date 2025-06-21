@@ -5,11 +5,14 @@ A modern AI-assisted development platform built with React/TypeScript frontend a
 ## Features
 
 - **Real-time Chat**: WebSocket-based communication using Socket.IO
+- **AI Assistant Integration**: OpenAI-powered AI assistant with @Assistant mentions
 - **Modern UI**: Clean, responsive interface with dark/light theme support
 - **TypeScript**: Full type safety across the application
 - **Containerized**: Docker-based development environment
 - **Role-based Messaging**: Support for different user roles (developer, admin, AI, user)
 - **Message History**: Persistent chat history during session
+- **Automated AI Responses**: AI assistant automatically responds when mentioned
+- **Context-Aware**: AI uses last 10 messages for context
 
 ## Tech Stack
 
@@ -23,8 +26,10 @@ A modern AI-assisted development platform built with React/TypeScript frontend a
 ### Backend
 - **FastAPI** - Modern, fast Python web framework
 - **Socket.IO** - Real-time bidirectional communication
+- **OpenAI API** - GPT-3.5 Turbo integration for AI assistant
 - **Python 3.12** - Latest Python features
 - **Uvicorn** - ASGI server
+- **Pytest** - Comprehensive testing framework
 
 ### DevOps
 - **Docker & Docker Compose** - Containerized development
@@ -61,7 +66,14 @@ A modern AI-assisted development platform built with React/TypeScript frontend a
    cp env.example .env
    ```
 
-2. Modify `.env` as needed (optional for development)
+2. Add your OpenAI API key to `.env`:
+   ```bash
+   OPENAI_API_KEY=your-actual-openai-api-key-here
+   ```
+
+3. Modify other variables as needed (optional for development)
+
+**Note**: The AI assistant features require a valid OpenAI API key. Without it, the platform will work but @Assistant mentions won't trigger AI responses.
 
 ### Running the Application
 
@@ -131,6 +143,7 @@ ProjectCoCo1/
 - `GET /` - Basic API status
 - `GET /health` - Health check endpoint
 - `GET /docs` - Interactive API documentation (Swagger)
+- `POST /agent/reply` - Generate AI assistant response from chat transcript
 
 ### Socket.IO Events
 
@@ -164,6 +177,18 @@ The chat interface automatically sends messages with the following structure:
 }
 ```
 
+### AI Assistant Integration
+
+**Triggering AI Responses:**
+- Type a message containing `@Assistant` to automatically get an AI response
+- Example: "Hey @Assistant, can you help me debug this code?"
+
+**AI Assistant Features:**
+- Uses OpenAI GPT-3.5 Turbo model
+- Considers last 10 messages for context
+- Responds automatically when mentioned
+- Messages from AI show with a robot icon 🤖
+
 ### Role Types
 
 The platform supports different user roles:
@@ -185,6 +210,20 @@ The platform supports different user roles:
 Both frontend and backend support hot reloading:
 - Frontend: Vite automatically reloads on file changes
 - Backend: Uvicorn reloads on Python file changes
+
+### Testing
+
+**Run Backend Tests:**
+```bash
+cd backend
+pip install -r requirements.txt
+pytest test_agent.py -v
+```
+
+**Run with Docker:**
+```bash
+docker compose exec backend pytest test_agent.py -v
+```
 
 ### Debugging
 
